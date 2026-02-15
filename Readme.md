@@ -152,3 +152,9 @@ npm run dev
 * **FastAPI** & **React** for the modern stack
 
 ---
+
+## 📄 License
+
+This project is licensed under the [MIT License](./LICENSE).
+
+---
