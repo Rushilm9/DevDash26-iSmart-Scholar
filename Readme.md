@@ -2,6 +2,8 @@
 
 *An AI-powered web application for smarter academic research and literature review*
 
+**🚀 Built for Dev_dash 2026 Hackathon**
+
 ---
 
 ## 📘 Overview
@@ -144,6 +146,7 @@ npm run dev
 
 ## 🙌 Acknowledgements
 
+* **Dev_dash 2026 Hackathon** for the opportunity to innovate
 * **Azure OpenAI** for powerful language modeling
 * **LangChain** for robust AI application development
 * **FastAPI** & **React** for the modern stack
