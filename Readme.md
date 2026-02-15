@@ -1,8 +1,19 @@
+![React](https://img.shields.io/badge/Frontend-React-blue)
+![FastAPI](https://img.shields.io/badge/Backend-FastAPI-green)
+![Azure OpenAI](https://img.shields.io/badge/AI-Azure%20OpenAI-purple)
+
 # 🧠 i-Smart ScholAR
 
-*An AI-powered web application for smarter academic research and literature review*
+*AI-powered research assistant that turns hours of literature review into minutes*
 
 **🚀 Built for Dev_dash 2026 Hackathon**
+
+---
+
+## ❓ Problem Statement
+Academic literature review is time-consuming and overwhelming due to the rapid growth of research publications. Students and researchers spend hours discovering relevant papers, summarizing content, and synthesizing insights manually.
+
+**i-Smart ScholAR** addresses this by providing an AI-powered research assistant that automates discovery, summarization, and synthesis in a single platform.
 
 ---
 
@@ -10,6 +21,23 @@
 
 **i-Smart ScholAR** is an intelligent academic assistant that helps researchers and students **discover, analyze, and summarize** research papers using AI.
 It integrates **Azure OpenAI (GPT-4o)** and **LangChain** to automate research workflows — from **keyword generation** to **literature review synthesis** — all within an interactive web app.
+
+---
+
+## 👨‍💻 My Contribution
+Built the entire project end-to-end including:
+- **Frontend:** React + Tailwind CSS
+- **Backend:** FastAPI + LangChain
+- **AI Integration:** Azure OpenAI (GPT-4o)
+- **UI/UX Design:** Targeted for researcher efficiency
+
+---
+
+## 🤖 AI Usage Disclosure
+This project uses **Azure OpenAI (GPT-4o)** for:
+- Keyword generation from user prompts and PDF text.
+- Comprehensive paper summarization.
+- Intelligent synthesis of literature reviews across multiple papers.
 
 ---
 
@@ -141,6 +169,15 @@ npm run dev
 ```
 
 * Vite dev server runs at (default): **[http://localhost:5173](http://localhost:5173)**
+
+---
+
+## 🔮 Future Scope
+- **AI Engine Enhancement:** Continuous improvement of the core AI logic for deeper reasoning.
+- **Source Expansion:** Adding more data sources and journals to the paper discovery pipeline.
+- **Paid Journal Access:** Integrating authentication for access to subscription-based academic journals.
+- **Multi-language Support:** Enabling the UI and AI analysis for researchers across the globe.
+- **Collaboration Tools:** Multi-user workspaces and PDF annotation features.
 
 ---
 
