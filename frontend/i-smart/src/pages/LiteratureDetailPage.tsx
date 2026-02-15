@@ -192,11 +192,10 @@ const LiteratureDetailPage: React.FC = () => {
               <FileText className="h-5 w-5 text-blue-600" /> {fileName}
             </h2>
             <span
-              className={`text-sm font-medium ${
-                source === "local" ? "text-green-600" : "text-blue-600"
-              }`}
+              className={`text-sm font-medium ${source === "local" ? "text-green-600" : "text-blue-600"
+                }`}
             >
-              {source === "local" ? "Local Analysis" : "Gemini / DB Review"}
+              {source === "local" ? "Local Analysis" : "Azure AI / DB Review"}
             </span>
           </div>
 
@@ -386,8 +385,8 @@ const LiteratureDetailPage: React.FC = () => {
                   {serverData.peer_reviewed === null
                     ? "Unknown"
                     : serverData.peer_reviewed
-                    ? "Yes"
-                    : "No"}
+                      ? "Yes"
+                      : "No"}
                 </p>
                 {serverData.created_at && (
                   <p className="flex items-center gap-1">

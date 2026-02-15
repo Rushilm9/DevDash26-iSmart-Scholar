@@ -125,183 +125,183 @@ const KeywordWorkspace: React.FC = () => {
     }
   };
 
-  // 🔁 Shared Gemini analysis (with or without file)
-//   const analyzeWithGemini = async (file?: File | null): Promise<void> => {
-//     if (!project) {
-//       setAlertMsg("⚠️ Please select a project first.");
-//       throw new Error("No project selected");
-//     }
+  // 🔁 Shared Azure AI analysis (with or without file)
+  //   const analyzeWithGemini = async (file?: File | null): Promise<void> => {
+  //     if (!project) {
+  //       setAlertMsg("⚠️ Please select a project first.");
+  //       throw new Error("No project selected");
+  //     }
 
-//     try {
-//       setIsUploading(!!file);
-//       if (!file) {
-//         setUploadStatus("Analyzing with Gemini...");
-//       } else {
-//         setUploadProgress(0);
-//         setUploadStatus("Uploading & analyzing...");
-//       }
+  //     try {
+  //       setIsUploading(!!file);
+  //       if (!file) {
+  //         setUploadStatus("Analyzing with Gemini...");
+  //       } else {
+  //         setUploadProgress(0);
+  //         setUploadStatus("Uploading & analyzing...");
+  //       }
 
-//       const formData = new FormData();
+  //       const formData = new FormData();
 
-//       // ✅ Backend expects integer user_id & project_id (as strings in form-data)
-//       // const userId = project.user_id ?? 0; // fallback to 0 if not present
-//       const userId = getUserId();
+  //       // ✅ Backend expects integer user_id & project_id (as strings in form-data)
+  //       // const userId = project.user_id ?? 0; // fallback to 0 if not present
+  //       const userId = getUserId();
 
-// if (!userId) {
-//   setAlertMsg("⚠️ User not authenticated.");
-//   throw new Error("Missing user_id");
-// }
+  // if (!userId) {
+  //   setAlertMsg("⚠️ User not authenticated.");
+  //   throw new Error("Missing user_id");
+  // }
 
-//       formData.append("user_id", String(userId));
-//       formData.append("project_id", String(project.project_id));
-//       formData.append("prompt", prompt || "");
+  //       formData.append("user_id", String(userId));
+  //       formData.append("project_id", String(project.project_id));
+  //       formData.append("prompt", prompt || "");
 
-//       // files is optional – only append when present
-//       if (file) {
-//         formData.append("files", file);
-//       }
+  //       // files is optional – only append when present
+  //       if (file) {
+  //         formData.append("files", file);
+  //       }
 
-//       await new Promise<void>((resolve, reject) => {
-//         const xhr = new XMLHttpRequest();
-//         xhr.open("POST", `${API_BASE}/keyword/analyze`);
+  //       await new Promise<void>((resolve, reject) => {
+  //         const xhr = new XMLHttpRequest();
+  //         xhr.open("POST", `${API_BASE}/keyword/analyze`);
 
-//         xhr.upload.onprogress = (e) => {
-//           if (e.lengthComputable && file) {
-//             const percent = Math.round((e.loaded / e.total) * 100);
-//             setUploadProgress(percent);
-//           }
-//         };
+  //         xhr.upload.onprogress = (e) => {
+  //           if (e.lengthComputable && file) {
+  //             const percent = Math.round((e.loaded / e.total) * 100);
+  //             setUploadProgress(percent);
+  //           }
+  //         };
 
-//         xhr.onload = async () => {
-//           setIsUploading(false);
-//           if (xhr.status === 200) {
-//             setUploadStatus(
-//               file ? "✅ Upload and analysis complete!" : "✅ Analysis complete!"
-//             );
-//             setAlertMsg("✅ Gemini analysis finished. Keywords updated from server.");
-//             try {
-//               await fetchProjectKeywords(project.project_id);
-//               await fetchProjectStats(project.project_id);
-//             } catch (e) {
-//               console.error("Post-analysis refresh failed", e);
-//             }
-//             resolve();
-//           } else {
-//             setUploadStatus("❌ Analysis failed.");
-//             setAlertMsg("❌ Server error while analyzing with Gemini.");
-//             reject(new Error(`Status ${xhr.status}`));
-//           }
-//         };
+  //         xhr.onload = async () => {
+  //           setIsUploading(false);
+  //           if (xhr.status === 200) {
+  //             setUploadStatus(
+  //               file ? "✅ Upload and analysis complete!" : "✅ Analysis complete!"
+  //             );
+  //             setAlertMsg("✅ Gemini analysis finished. Keywords updated from server.");
+  //             try {
+  //               await fetchProjectKeywords(project.project_id);
+  //               await fetchProjectStats(project.project_id);
+  //             } catch (e) {
+  //               console.error("Post-analysis refresh failed", e);
+  //             }
+  //             resolve();
+  //           } else {
+  //             setUploadStatus("❌ Analysis failed.");
+  //             setAlertMsg("❌ Server error while analyzing with Gemini.");
+  //             reject(new Error(`Status ${xhr.status}`));
+  //           }
+  //         };
 
-//         xhr.onerror = () => {
-//           setIsUploading(false);
-//           setUploadStatus("❌ Network error.");
-//           setAlertMsg("❌ Network error while calling Gemini analysis.");
-//           reject(new Error("Network error"));
-//         };
+  //         xhr.onerror = () => {
+  //           setIsUploading(false);
+  //           setUploadStatus("❌ Network error.");
+  //           setAlertMsg("❌ Network error while calling Gemini analysis.");
+  //           reject(new Error("Network error"));
+  //         };
 
-//         xhr.send(formData);
-//       });
-//     } catch (err) {
-//       console.error(err);
-//       setIsUploading(false);
-//       setUploadStatus("❌ Analysis failed.");
-//       if (!alertMsg) {
-//         setAlertMsg("❌ Unexpected error during Gemini analysis.");
-//       }
-//       throw err;
-//     }
-//   };
-const analyzeWithGemini = async (file?: File | null): Promise<void> => {
-  if (!project) {
-    setAlertMsg("⚠️ Please select a project first.");
-    throw new Error("No project selected");
-  }
-
-  try {
-    setIsUploading(!!file);
-    setUploadStatus(file ? "Uploading & analyzing..." : "Analyzing with Gemini...");
-
-    const formData = new FormData();
-
-    // ✅ FIXED: user_id comes from session/local storage
-    const userId = getUserId();
-    if (!userId) {
-      setAlertMsg("⚠️ User not authenticated.");
-      throw new Error("Missing user_id");
+  //         xhr.send(formData);
+  //       });
+  //     } catch (err) {
+  //       console.error(err);
+  //       setIsUploading(false);
+  //       setUploadStatus("❌ Analysis failed.");
+  //       if (!alertMsg) {
+  //         setAlertMsg("❌ Unexpected error during Gemini analysis.");
+  //       }
+  //       throw err;
+  //     }
+  //   };
+  const analyzeWithAzureAI = async (file?: File | null): Promise<void> => {
+    if (!project) {
+      setAlertMsg("⚠️ Please select a project first.");
+      throw new Error("No project selected");
     }
 
-    formData.append("user_id", String(userId));
-    formData.append("project_id", String(project.project_id));
-    formData.append("prompt", prompt || "");
+    try {
+      setIsUploading(!!file);
+      setUploadStatus(file ? "Uploading & analyzing..." : "Analyzing with Azure AI...");
 
-    if (file) {
-      formData.append("files", file);
+      const formData = new FormData();
+
+      // ✅ FIXED: user_id comes from session/local storage
+      const userId = getUserId();
+      if (!userId) {
+        setAlertMsg("⚠️ User not authenticated.");
+        throw new Error("Missing user_id");
+      }
+
+      formData.append("user_id", String(userId));
+      formData.append("project_id", String(project.project_id));
+      formData.append("prompt", prompt || "");
+
+      if (file) {
+        formData.append("files", file);
+      }
+
+      await new Promise<void>((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", `${API_BASE}/keyword/analyze`);
+
+        xhr.upload.onprogress = (e) => {
+          if (e.lengthComputable && file) {
+            const percent = Math.round((e.loaded / e.total) * 100);
+            setUploadProgress(percent);
+          }
+        };
+
+        xhr.onload = async () => {
+          setIsUploading(false);
+          if (xhr.status === 200) {
+            setUploadStatus(
+              file ? "✅ Upload and analysis complete!" : "✅ Analysis complete!"
+            );
+            setAlertMsg("✅ Azure AI analysis finished. Keywords updated from server.");
+            await fetchProjectKeywords(project.project_id);
+            await fetchProjectStats(project.project_id);
+            resolve();
+          } else {
+            setUploadStatus("❌ Analysis failed.");
+            setAlertMsg("❌ Server error while analyzing with Azure AI.");
+            reject(new Error(`Status ${xhr.status}`));
+          }
+        };
+
+        xhr.onerror = () => {
+          setIsUploading(false);
+          setUploadStatus("❌ Network error.");
+          setAlertMsg("❌ Network error while calling Azure AI analysis.");
+          reject(new Error("Network error"));
+        };
+
+        xhr.send(formData);
+      });
+    } catch (err) {
+      console.error(err);
+      setIsUploading(false);
+      setUploadStatus("❌ Analysis failed.");
+      throw err;
     }
+  };
 
-    await new Promise<void>((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open("POST", `${API_BASE}/keyword/analyze`);
-
-      xhr.upload.onprogress = (e) => {
-        if (e.lengthComputable && file) {
-          const percent = Math.round((e.loaded / e.total) * 100);
-          setUploadProgress(percent);
-        }
-      };
-
-      xhr.onload = async () => {
-        setIsUploading(false);
-        if (xhr.status === 200) {
-          setUploadStatus(
-            file ? "✅ Upload and analysis complete!" : "✅ Analysis complete!"
-          );
-          setAlertMsg("✅ Gemini analysis finished. Keywords updated from server.");
-          await fetchProjectKeywords(project.project_id);
-          await fetchProjectStats(project.project_id);
-          resolve();
-        } else {
-          setUploadStatus("❌ Analysis failed.");
-          setAlertMsg("❌ Server error while analyzing with Gemini.");
-          reject(new Error(`Status ${xhr.status}`));
-        }
-      };
-
-      xhr.onerror = () => {
-        setIsUploading(false);
-        setUploadStatus("❌ Network error.");
-        setAlertMsg("❌ Network error while calling Gemini analysis.");
-        reject(new Error("Network error"));
-      };
-
-      xhr.send(formData);
-    });
-  } catch (err) {
-    console.error(err);
-    setIsUploading(false);
-    setUploadStatus("❌ Analysis failed.");
-    throw err;
-  }
-};
-
-  // 🧠 Keyword generation using Chrome or Gemini backend
+  // 🧠 Keyword generation using Chrome or Azure AI backend
   const handleGenerateKeywords = async () => {
     if (!prompt.trim() || !project) {
       setAlertMsg("⚠️ Enter a valid research prompt first.");
       return;
     }
 
-    // ⚡ Gemini Mode → always hit /keyword/analyze (even without file)
+    // ⚡ Azure AI Mode → always hit /keyword/analyze (even without file)
     if (!chromeBuild) {
       try {
         setIsAnalyzing(true);
-        setAlertMsg("⚡ Sending prompt to Gemini for keyword extraction…");
-        await analyzeWithGemini(null); // no file, just prompt
+        setAlertMsg("⚡ Sending prompt to Azure AI for keyword extraction…");
+        await analyzeWithAzureAI(null); // no file, just prompt
         // Keywords are refreshed from backend
         setEditable(true);
       } catch (err: any) {
         console.error(err);
-        setAlertMsg("❌ Failed to generate keywords via Gemini.");
+        setAlertMsg("❌ Failed to generate keywords via Azure AI.");
       } finally {
         setIsAnalyzing(false);
       }
@@ -408,11 +408,11 @@ const analyzeWithGemini = async (file?: File | null): Promise<void> => {
     }
   };
 
-  // 📂 Upload PDF (Gemini Mode only, still hits /keyword/analyze)
+  // 📂 Upload PDF (Azure AI Mode only, still hits /keyword/analyze)
   const handleFileUpload = async (selectedFile: File) => {
     // 🚫 Chrome Build Mode should not upload
     if (chromeBuild) {
-      setAlertMsg("⚠️ Upload is only available in Gemini Mode.");
+      setAlertMsg("⚠️ Upload is only available in Azure AI Mode.");
       return;
     }
 
@@ -427,9 +427,9 @@ const analyzeWithGemini = async (file?: File | null): Promise<void> => {
     }
 
     try {
-      await analyzeWithGemini(selectedFile);
+      await analyzeWithAzureAI(selectedFile);
     } catch {
-      // analyzeWithGemini already sets alerts
+      // analyzeWithAzureAI already sets alerts
     }
   };
 
@@ -462,22 +462,20 @@ const analyzeWithGemini = async (file?: File | null): Promise<void> => {
       {/* 🔘 Mode Toggle */}
       <div className="w-full max-w-4xl flex justify-end items-center gap-3 pr-2">
         <span className="text-gray-700 font-medium text-sm">
-          {chromeBuild ? "🧠 Chrome Build Mode" : "⚡ Gemini Mode"}
+          {chromeBuild ? "🧠 Chrome Build Mode" : "⚡ Azure AI Mode"}
         </span>
         <button
           onClick={() => setChromeBuild(!chromeBuild)}
-          className={`relative inline-flex h-6 w-12 items-center rounded-full transition-colors ${
-            chromeBuild ? "bg-green-600" : "bg-gray-400"
-          }`}
+          className={`relative inline-flex h-6 w-12 items-center rounded-full transition-colors ${chromeBuild ? "bg-green-600" : "bg-gray-400"
+            }`}
         >
           <span
-            className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform ${
-              chromeBuild ? "translate-x-6" : "translate-x-1"
-            }`}
+            className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform ${chromeBuild ? "translate-x-6" : "translate-x-1"
+              }`}
           />
         </button>
         <span className="text-sm text-gray-600">
-          Mode: {chromeBuild ? "Local Chrome AI" : "Gemini Cloud API"}
+          Mode: {chromeBuild ? "Local Chrome AI" : "Azure Cloud API"}
         </span>
       </div>
 
@@ -539,9 +537,8 @@ const analyzeWithGemini = async (file?: File | null): Promise<void> => {
 
       {/* 🧠 Research Prompt + Upload */}
       <div
-        className={`bg-white border border-gray-200 rounded-xl shadow-sm p-6 w-full max-w-4xl ${
-          !chromeBuild ? "grid grid-cols-1 md:grid-cols-2 gap-6" : ""
-        }`}
+        className={`bg-white border border-gray-200 rounded-xl shadow-sm p-6 w-full max-w-4xl ${!chromeBuild ? "grid grid-cols-1 md:grid-cols-2 gap-6" : ""
+          }`}
       >
         {/* Prompt */}
         <div>
@@ -558,11 +555,10 @@ const analyzeWithGemini = async (file?: File | null): Promise<void> => {
             <button
               onClick={handleGenerateKeywords}
               disabled={isAnalyzing}
-              className={`flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-medium ${
-                isAnalyzing
+              className={`flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-medium ${isAnalyzing
                   ? "bg-gray-300 text-gray-600"
                   : "bg-blue-700 hover:bg-blue-800 text-white"
-              }`}
+                }`}
             >
               {isAnalyzing ? (
                 <>
@@ -579,7 +575,7 @@ const analyzeWithGemini = async (file?: File | null): Promise<void> => {
           </div>
         </div>
 
-        {/* Upload PDF (Gemini Mode) */}
+        {/* Upload PDF (Azure AI Mode) */}
         {!chromeBuild && (
           <div>
             <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
@@ -676,11 +672,10 @@ const analyzeWithGemini = async (file?: File | null): Promise<void> => {
               <button
                 onClick={handleSaveKeywords}
                 disabled={isSaving}
-                className={`flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-medium ${
-                  isSaving
+                className={`flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-medium ${isSaving
                     ? "bg-gray-300 text-gray-600"
                     : "bg-green-600 hover:bg-green-700 text-white"
-                }`}
+                  }`}
               >
                 {isSaving ? (
                   <>

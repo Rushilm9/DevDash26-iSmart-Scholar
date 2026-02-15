@@ -48,8 +48,8 @@ async function uploadAndReviewPaper(
           const results = Array.isArray(data.results)
             ? data.results
             : data.results
-            ? [data.results]
-            : [];
+              ? [data.results]
+              : [];
           resolve(results);
         } catch {
           reject(new Error("Failed to parse server response"));
@@ -255,15 +255,15 @@ const LiteratureUploadPage: React.FC = () => {
     navigate("/app/literature/local"); // ✅ Chrome Build → local page
   };
 
-  // 🌐 Analyze via Gemini backend
-  const analyzeWithGemini = async () => {
+  // 🌐 Analyze via Azure AI backend
+  const analyzeWithAzureAI = async () => {
     if (files.length === 0) return;
     if (!project?.project_id) {
-      setAlertMsg("⚠️ Please select a project before running Gemini analysis.");
+      setAlertMsg("⚠️ Please select a project before running Azure AI analysis.");
       return;
     }
     setLoading(true);
-    setStatus("🚀 Uploading to Gemini backend...");
+    setStatus("🚀 Uploading to Azure AI backend...");
 
     const inputFiles = fileInputRef.current?.files;
     if (!inputFiles) return;
@@ -275,30 +275,30 @@ const LiteratureUploadPage: React.FC = () => {
       if (!match) continue;
 
       try {
-        setStatus(`📤 Uploading ${f.name} for Gemini analysis...`);
+        setStatus(`📤 Uploading ${f.name} for Azure AI analysis...`);
         const result = await uploadAndReviewPaper(match, project.project_id);
 
         updatedFiles.push({
           ...f,
           analysis: result?.[0]?.message || "Analysis complete.",
-          status: "✅ Completed (Gemini)",
+          status: "✅ Completed (Azure AI)",
         });
       } catch (err: any) {
-        updatedFiles.push({ ...f, status: `❌ Gemini Error: ${err.message}` });
+        updatedFiles.push({ ...f, status: `❌ Azure AI Error: ${err.message}` });
       }
     }
 
-    localStorage.setItem("geminiAnalyzedPapers", JSON.stringify(updatedFiles));
+    localStorage.setItem("azureAIAnalyzedPapers", JSON.stringify(updatedFiles));
     setFiles(updatedFiles);
     setLoading(false);
-    setStatus("✅ Gemini analyses complete!");
-    navigate("/app/literature"); // ✅ Gemini → main literature page
+    setStatus("✅ Azure AI analyses complete!");
+    navigate("/app/literature"); // ✅ Azure AI → main literature page
   };
 
   // 🔁 Unified handler
   const handleAnalyze = () => {
     if (useChromeBuild) analyzeWithChromeBuild();
-    else analyzeWithGemini();
+    else analyzeWithAzureAI();
   };
 
   const goBack = () => navigate(-1);
@@ -315,9 +315,8 @@ const LiteratureUploadPage: React.FC = () => {
 
       {alertMsg && (
         <div
-          className={`p-3 rounded text-sm ${
-            alertMsg.includes("⚠️") ? "bg-yellow-50 text-yellow-800" : "bg-green-50 text-green-800"
-          } border`}
+          className={`p-3 rounded text-sm ${alertMsg.includes("⚠️") ? "bg-yellow-50 text-yellow-800" : "bg-green-50 text-green-800"
+            } border`}
         >
           {alertMsg}
         </div>
@@ -327,24 +326,22 @@ const LiteratureUploadPage: React.FC = () => {
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-xl font-semibold flex items-center gap-2">
             <UploadCloud className="h-5 w-5 text-blue-600" />
-            Upload & Analyze Papers ({useChromeBuild ? "Chrome Build" : "Gemini"})
+            Upload & Analyze Papers ({useChromeBuild ? "Chrome Build" : "Azure AI"})
           </h2>
 
           <div className="flex items-center gap-3">
             <span className="text-sm text-gray-600">Chrome Build</span>
             <button
               onClick={() => setUseChromeBuild((p) => !p)}
-              className={`relative w-12 h-6 flex items-center rounded-full transition ${
-                useChromeBuild ? "bg-green-600" : "bg-gray-400"
-              }`}
+              className={`relative w-12 h-6 flex items-center rounded-full transition ${useChromeBuild ? "bg-green-600" : "bg-gray-400"
+                }`}
             >
               <span
-                className={`absolute left-1 top-1 w-4 h-4 rounded-full bg-white transform transition ${
-                  useChromeBuild ? "translate-x-6" : ""
-                }`}
+                className={`absolute left-1 top-1 w-4 h-4 rounded-full bg-white transform transition ${useChromeBuild ? "translate-x-6" : ""
+                  }`}
               />
             </button>
-            <span className="text-sm text-gray-600">Gemini</span>
+            <span className="text-sm text-gray-600">Azure AI</span>
           </div>
         </div>
 
@@ -378,13 +375,12 @@ const LiteratureUploadPage: React.FC = () => {
                 </div>
                 <div className="flex items-center gap-3">
                   <span
-                    className={`text-xs ${
-                      f.status.startsWith("✅")
+                    className={`text-xs ${f.status.startsWith("✅")
                         ? "text-green-600"
                         : f.status.startsWith("❌")
-                        ? "text-red-600"
-                        : "text-gray-600"
-                    }`}
+                          ? "text-red-600"
+                          : "text-gray-600"
+                      }`}
                   >
                     {f.status}
                   </span>
@@ -405,9 +401,8 @@ const LiteratureUploadPage: React.FC = () => {
           <button
             onClick={handleAnalyze}
             disabled={loading || files.length === 0}
-            className={`inline-flex items-center gap-2 px-4 py-2 rounded text-white ${
-              loading ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"
-            }`}
+            className={`inline-flex items-center gap-2 px-4 py-2 rounded text-white ${loading ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"
+              }`}
           >
             {loading && <Loader2 className="h-4 w-4 animate-spin" />}
             {loading ? "Analyzing..." : "Analyze"}

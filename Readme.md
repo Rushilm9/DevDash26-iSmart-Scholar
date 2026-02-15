@@ -133,16 +133,30 @@ Create a `.env` file in the **backend** directory.
 **Backend `.env`:**
 
 ```env
-# Azure OpenAI Configuration
-AZURE_OPENAI_API_KEY=your_api_key
-AZURE_OPENAI_ENDPOINT=your_endpoint_url
-AZURE_OPENAI_API_VERSION=your_api_version
-```
+# --------------------------
+# 🔐 API KEYS & AUTH (AZURE OPENAI)
+# --------------------------
+AZURE_OPENAI_API_KEY=your_azure_openai_api_key_here
+AZURE_OPENAI_ENDPOINT=your_azure_openai_endpoint_here
+AZURE_OPENAI_API_VERSION=2024-02-15-preview
+AZURE_OPENAI_DEPLOYMENT=gpt-4o
 
-**Frontend `.env`:**
+# 📧 CONTACT EMAIL (for OpenAlex/Crossref User-Agent)
+CONTACT_EMAIL=your_email@example.com
 
-```env
-VITE_BACKEND_URL=http://localhost:8000
+# --------------------------
+# 🗄️ DATABASE CONFIGURATION
+# --------------------------
+DB_HOST=your_db_host_here
+DB_PORT=4000
+DB_USER=your_db_user_here
+DB_PASSWORD=your_db_password_here
+DB_DATABASE=your_db_database_name_here
+
+# --------------------------
+# ⚙️ APP SETTINGS
+# --------------------------
+APP_PORT=8000
 ```
 
 ---

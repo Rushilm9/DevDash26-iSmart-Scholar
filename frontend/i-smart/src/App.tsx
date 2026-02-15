@@ -21,7 +21,7 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import Logout from "./pages/Logout";
 
-// 📚 Literature Pages (Backend – Gemini/Server)
+// 📚 Literature Pages (Backend – Azure AI/Server)
 import LiteratureListPage from "./pages/LiteratureListPage";
 import LiteratureUploadPage from "./pages/LiteratureUploadPage";
 import LiteratureDetailPage from "./pages/LiteratureDetailPage";
@@ -71,7 +71,7 @@ const App: React.FC = () => {
           <Route path="papers" element={<ShowPapersPage />} />
           <Route path="papers/:paperId" element={<PaperDetailPage />} />
 
-          {/* 📘 Literature Review (Backend – Gemini/Server) */}
+          {/* 📘 Literature Review (Backend – Azure AI/Server) */}
           <Route path="literature" element={<LiteratureListPage />} />
           <Route path="literature/upload" element={<LiteratureUploadPage />} />
           <Route path="literature/:paperId" element={<LiteratureDetailPage />} />

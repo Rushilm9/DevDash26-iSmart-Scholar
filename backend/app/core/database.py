@@ -8,22 +8,22 @@ import os
 load_dotenv(override=True)
 
 # --- Database Config from .env ---
-TIDB_USER = os.getenv("TIDB_USER")
-TIDB_PASSWORD = os.getenv("TIDB_PASSWORD")
-TIDB_HOST = os.getenv("TIDB_HOST")
-TIDB_PORT = os.getenv("TIDB_PORT", "4000")
-TIDB_DATABASE = os.getenv("TIDB_DATABASE")
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+DB_HOST = os.getenv("DB_HOST")
+DB_PORT = os.getenv("DB_PORT", "4000")
+DB_DATABASE = os.getenv("DB_DATABASE")
 
 # --- Validation ---
-if not all([TIDB_USER, TIDB_PASSWORD, TIDB_HOST, TIDB_DATABASE]):
+if not all([DB_USER, DB_PASSWORD, DB_HOST, DB_DATABASE]):
     raise RuntimeError("❌ Missing database environment variables. Check your .env file.")
 
 # --- Safely encode credentials ---
-user = quote_plus(TIDB_USER)
-pwd = quote_plus(TIDB_PASSWORD)
+user = quote_plus(DB_USER)
+pwd = quote_plus(DB_PASSWORD)
 
 # --- Build Database URL ---
-DATABASE_URL = f"mysql+mysqlconnector://{user}:{pwd}@{TIDB_HOST}:{TIDB_PORT}/{TIDB_DATABASE}"
+DATABASE_URL = f"mysql+mysqlconnector://{user}:{pwd}@{DB_HOST}:{DB_PORT}/{DB_DATABASE}"
 
 # --- SQLAlchemy Engine ---
 engine = create_engine(
